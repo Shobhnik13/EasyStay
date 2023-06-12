@@ -19,6 +19,7 @@ router.post('/register',asyncHandler(async(req,res)=>{
             res.status(201).json({
                 username:newUser.username,
                 email:newUser.email,
+                token:generateToken(newUser.id)
             })
         }
         else{
@@ -36,6 +37,7 @@ router.post('/login',asyncHandler(async(req,res)=>{
             username:userExists.username,
             email:userExists.email,
             id:userExists.id,
+            token:generateToken(userExists.id)
         })
     }
     else{
