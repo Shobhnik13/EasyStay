@@ -1,13 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv=require('dotenv')
-const auth=require('./routes/auth.js')
 const hotel=require('./routes/hotels.js')
+const auth=require('./routes/auth.js');
+const { errorHandler, notFound } = require('./utils/Error.js');
+const cors=require('cors');
+const connectDb = require('./config/db.js');
 const app=express()
 // middlewares
 dotenv.config();
 app.use(express.json())
-
+app.use(cors())
 // app.use((err,req,res,next)=>{
 //   const errStatus=err.status||500
 //   const errMessage=err.message||'Something went wrong!'
@@ -20,29 +23,20 @@ app.use(express.json())
 // })
 
 // connecting mongo 
-const connect =async()=>{
-    try {
-        await mongoose.connect(process.env.MONGO);
-        console.log('MONGODB connected')
-      }
-      catch(err){
-        throw err;
-      }
-}
-mongoose.connection.on('disconnected',()=>{
-    console.log('MONGODB disconnected')
-})
-
+connectDb()
 // calling routes 
 
-// app.get('/test',(req,res)=>{
-//     res.send('success')
-// })
+app.get('/test',(req,res)=>{
+    res.send('success')
+})
 
 app.use('/auth',auth)
 app.use('/hotels',hotel)
+app.use('/users',auth)
+//error
+app.use(notFound)
+app.use(errorHandler)
 //listening request
 app.listen(8000,()=>{
-    connect()
     console.log('connected to backend')
 })
