@@ -5,6 +5,7 @@ const notFound = require('../utils/Error.js')
 const errorHandler=require('../utils/Error.js')
 const asyncHandler=require('express-async-handler')
 const generateToken = require('../utils/Token')
+const jwt = require('jsonwebtoken');
 const router=express.Router()
 // user registration 
 router.post('/register',asyncHandler(async(req,res)=>{
@@ -32,12 +33,21 @@ router.post('/login',asyncHandler(async(req,res)=>{
     const {email,password}=req.body;
     const userExists=await user.findOne({email})
     if(userExists && (await userExists.matchPassword(password))){
-        // return the data
-        res.status(201).json({
+        // user is existing and also it matches the pass
+        //so generate a Token
+        //assign a cookie at res
+        const Token=jwt.sign({id:userExists.id,isAdmin:userExists.isAdmin},process.env.JWT_SECRET,{
+            expiresIn:'30d',
+        })
+
+        res.cookie("access_token",Token,{
+            httpOnly:true,
+        }).status(201).json({
             username:userExists.username,
             email:userExists.email,
             id:userExists.id,
-            token:generateToken(userExists.id)
+            isAdmin:userExists.isAdmin,
+            token:Token,
         })
     }
     else{
