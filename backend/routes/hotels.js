@@ -1,8 +1,9 @@
 const express=require('express')
 const hotel = require('../models/hotelModel.js')
+const verifyAdmin = require('../utils/VerifyAdmin.js')
 const router=express.Router()
 //create-post
-router.post('/',async(req,res)=>{
+router.post('/',verifyAdmin,async(req,res)=>{
     const newHotel=new hotel(req.body)
     try{
     const saveHotel=await newHotel.save()
@@ -12,7 +13,7 @@ router.post('/',async(req,res)=>{
     }
 })
 //update-put
-router.put('/:id',async(req,res)=>{
+router.put('/:id',verifyAdmin,async(req,res)=>{
     try{
     const updateHotel=await hotel.findByIdAndUpdate(req.params.id, {$set:req.body} ,{new:true})
     res.status(200).json(updateHotel)
@@ -21,7 +22,7 @@ router.put('/:id',async(req,res)=>{
     }
 })
 //delete-delete
-router.delete('/:id',async(req,res)=>{
+router.delete('/:id',verifyAdmin,async(req,res)=>{
     try{
         const Hotel=await hotel.findByIdAndDelete(req.params.id)
         res.status(200).json('Hotel deleted successfuly!')

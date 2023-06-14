@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const verifyToken = require('./VerifyToken');
 //verify admin
 const verifyAdmin=asyncHandler((req,res,next)=>{
-    verifyToken(req,res,()=>{
+    verifyToken(req,res,next,()=>{
         if(req.user.isAdmin===true){
             next()
         }
         else{
             res.status(400)
-            throw new Error('You are NOT an admin!')
+            throw new Error('You are not an admin!')
         }
     })
 })

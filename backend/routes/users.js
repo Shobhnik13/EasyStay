@@ -4,20 +4,20 @@ const verifyToken = require('../utils/VerifyToken.js')
 const verifyUser = require('../utils/VerifyUser.js')
 const verifyAdmin = require('../utils/VerifyAdmin.js')
 const router=express.Router()
-//check authentication
-router.get('/checkauth',verifyToken,(req,res)=>{
-    res.send('Hello ! You are logged in!')
-} )
-//check user
-router.get('/checkuser/:id',verifyUser,(req,res)=>{
-    res.send('You are logged in and can delete your account!')
-})
-//check admin
-router.get('/checkadmin/:id',verifyAdmin,(req,res)=>{
-    res.send('You are an admin and can delete all accounts!')
-})
+// //check authentication
+// router.get('/checkauth',verifyToken,(req,res)=>{
+//     res.send('Hello ! You are logged in!')
+// } )
+// //check user
+// router.get('/checkuser/:id',verifyUser,(req,res)=>{
+//     res.send('You are logged in and can delete your account!')
+// })
+// //check admin
+// router.get('/checkadmin/:id',verifyAdmin,(req,res)=>{
+//     res.send('You are an admin and can delete all accounts!')
+// })
 //update-put
-router.put('/:id',async(req,res)=>{
+router.put('/:id',verifyUser,async(req,res)=>{
     try{
     const updateUser=await user.findByIdAndUpdate(req.params.id, {$set:req.body} ,{new:true})
     res.status(200).json(updateUser)
@@ -26,7 +26,7 @@ router.put('/:id',async(req,res)=>{
     }
 })
 //delete-delete
-router.delete('/:id',async(req,res)=>{
+router.delete('/:id',verifyUser,async(req,res)=>{
     try{
         const User=await user.findByIdAndDelete(req.params.id)
         res.status(200).json('User deleted successfuly!')
@@ -35,7 +35,7 @@ router.delete('/:id',async(req,res)=>{
     }
 })
 // get all-get 
-router.get('/',async(req,res)=>{
+router.get('/',verifyAdmin,async(req,res)=>{
     try{
         const Users=await user.find()
         res.status(200).json(Users)
@@ -44,7 +44,7 @@ router.get('/',async(req,res)=>{
     }
 })
 // get by id -get(:id)
-router.get('/:id',async(req,res,next)=>{
+router.get('/:id',verifyUser,async(req,res,next)=>{
     try{
         const User=await user.findById(req.params.id)
         res.status(200).json(User)

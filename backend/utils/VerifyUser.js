@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const verifyToken = require('./VerifyToken');
 //verify user
 const verifyUser=asyncHandler((req,res,next)=>{
-    verifyToken(req,res,()=>{
+    verifyToken(req,res,next,()=>{
         if(req.user.id === req.params.id){
             next()
         }
