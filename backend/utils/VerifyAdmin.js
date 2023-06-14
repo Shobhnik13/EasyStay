@@ -9,7 +9,7 @@ const verifyAdmin=asyncHandler((req,res,next)=>{
         }
         else{
             res.status(400)
-            throw new Error('You are not an admin!')
+            throw new Error('You are NOT an admin!')
         }
     })
 })
