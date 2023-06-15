@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv=require('dotenv')
 const hotel=require('./routes/hotels.js')
 const auth=require('./routes/auth.js');
+const rooms=require('./routes/rooms.js');
 const users=require('./routes/users.js')
 const { errorHandler, notFound } = require('./utils/Error.js');
 const cors=require('cors');
@@ -37,6 +38,7 @@ app.use('/auth',auth)
 app.use('/hotels',hotel)
 app.use('/users',auth)
 app.use('/profile',users)
+app.use('/rooms',rooms)
 //error
 app.use(notFound)
 app.use(errorHandler)
