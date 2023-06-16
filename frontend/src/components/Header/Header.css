@@ -1,0 +1,36 @@
+.header{
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+.headerContainer{
+    width: 100%;
+    max-width: 1024px;
+    margin: 20px 0px 100px 0px;
+}
+.headerList{
+    display: flex;
+    gap:40px;
+}
+.headerListName{
+    display: flex;
+    align-items: center;
+    grid-area:10px;
+    cursor: pointer;
+}
+.headerListName.active{
+border: 1px solid white;
+padding: 10px;
+border-radius: 20px;
+}
+.headerDesc{
+    margin: 20px 0px;
+}
+.headerBtn{
+    color: white;
+    font-weight: 500;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    
+}
