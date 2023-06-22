@@ -1,0 +1,26 @@
+.footer{
+    width: 100%;
+    /* max-width: 1524px; */
+    font-size: 12px;
+}
+.flists{
+    padding: 0px 150px ;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+.flistitem{
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #003580;
+}
+.ftext{
+    font-size: x-large;
+   color: white;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   position: sticky;
+   font: bold;
+}
