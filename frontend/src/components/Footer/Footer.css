@@ -23,4 +23,6 @@
    justify-content: center;
    position: sticky;
    font: bold;
+   align-items: center;
+   padding-bottom: 20px;
 }

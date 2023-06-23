@@ -1,12 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../List/List.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Header from '../../components/Header/Header'
+import { useLocation } from 'react-router-dom'
 const List = () => {
+  const location=useLocation()
+  // console.log(location)
+  const [destination,setDestination]=useState(location.state.destination)
+  const [date,setDate]=useState(location.state.date)
+  const [opt,setOpt]=useState(location.state.opt)
   return (
     <div>
       <Navbar/>
       <Header type='list'/>
+      <div className="listcontainer">
+        <div className="listwrapper">
+          <div className='listsearch'>
+              <h1 className="searchtit">Search</h1>
+                <div className="lsitem">
+                  <label htmlFor="">Destination</label>
+                  <input type="text" />
+                 </div>
+                <div className="lsitem">
+                  <label htmlFor="">Check-in-date</label>
+                  <input type="text" />
+                </div>
+          </div>
+          <div className="listresult">
+
+          </div>
+        </div>
+
+      </div>
     </div>
   )
 }

@@ -50,7 +50,7 @@ const Footer = () => {
             </ul>
 
         </div>
-        <div className="ftext bg-gradient-to-l from-blue-700 to-blue-400 ">Copyright @ 2023 EasyStay.</div>
+        <div className="ftext bg-gradient-to-l from-blue-700 to-blue-400 ">Copyright @ 2023 <span className='text-blue-800 font-bold pl-1'> EasyStay</span></div>
     </div>
   )
 }
