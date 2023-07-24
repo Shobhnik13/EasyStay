@@ -17,6 +17,7 @@
     font-size: large;
     position: sticky;
     top: 10px;
+    height: fit-content;
 }
 .listresult{
     flex: 3;
