@@ -29,7 +29,7 @@ const Header = ({type}) => {
     setOpt(prev=>{
       return{
         ...prev,
-        [name]: operation=='i'? opt[name]+1:opt[name]-1,
+        [name]: operation==='i'? opt[name]+1:opt[name]-1,
       }
     })
   }
@@ -39,7 +39,7 @@ const Header = ({type}) => {
   }
   return (
     <div className='header bg-gradient-to-l from-blue-700 to-blue-400'>
-        <div className={type=='list'?'headerContainerList':'headerContainer'}>
+        <div className={type==='list'?'headerContainerList':'headerContainer'}>
         <div className='headerList'>
             <div className='headerListName gap-2 active'>
             <FontAwesomeIcon icon={faBed} />
@@ -80,6 +80,7 @@ const Header = ({type}) => {
               editableDateInputs={true}
               onChange={item => setDate([item.selection])}
               minDate={new Date()}
+              ranges={date}
               moveRangeOnFirstSelection={false}
               className='date'
               />}
