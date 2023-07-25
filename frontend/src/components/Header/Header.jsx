@@ -6,7 +6,7 @@ import { DateRange } from 'react-date-range';
 import  {faBed, faCalendarDays, faCar, faPerson, faPlane, faTaxi} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' 
 import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const Header = ({type}) => {
   const [openDate,setOpenDate]=useState(false)
   const [destination,setDestination]=useState('')
@@ -47,19 +47,19 @@ const Header = ({type}) => {
             </div>
             <div className='headerListName gap-2'>
             <FontAwesomeIcon icon={faPlane} />
-            <span>Flights</span>
+            <Link to={'flights'}>Flights</Link>
             </div>
             <div className='headerListName gap-2'>
             <FontAwesomeIcon icon={faCar} />
-            <span>Car rentals</span>
+            <Link to={'cars'}>Car rentals</Link>
             </div>
             <div className='headerListName gap-2'>
             <FontAwesomeIcon icon={faBed} />
-            <span>Attractions</span>
+            <Link to={'attractions'}>Attractions</Link>
             </div>
             <div className='headerListName gap-2'>
             <FontAwesomeIcon icon={faTaxi} />
-            <span>Airport taxis</span>
+            <Link to={'taxis'}>Airport taxis</Link>
             </div>
         </div>
       {type!=='list' &&  <> <h1 className='headerTitle font-bold text-3xl my-4'>Travel Made Simple:  <span className='text-blue-800 font-bold'>EasyStay</span> Booking Simplifies Hotel Reservations!</h1>

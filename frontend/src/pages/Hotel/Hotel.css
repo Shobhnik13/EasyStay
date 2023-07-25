@@ -94,4 +94,45 @@
     cursor: pointer;
     border-radius: 5px;
   }
-  
+  .slider{
+position: sticky;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background-color: rgba(0, 0, 0, 0.426);
+z-index: 111111;
+display: flex;
+align-items: center;
+}
+.sliderWrapper{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sliderImg{
+  width: 80%;
+  height: 80vh;
+}
+.close{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  color: lightgray;
+  cursor: pointer;
+}
+.close:hover{
+  color: black;
+}
+.arrow{
+  margin: 20px;
+  font-size: 30px;
+  color: lightgrey;
+  cursor: pointer;
+}
+.arrow:hover{
+color: black;
+}
