@@ -33,7 +33,7 @@ router.delete('/:id/:hotelId',verifyAdmin,async(req,res)=>{
     try{
         await room.findByIdAndDelete(req.params.id)
         try{
-            await hotel.findByIdAndUpdate(hotelId,{$pull:{rooms:req.params.id},})
+            await hotel.findByIdAndUpdate(hotelId,{$pull:{rooms:req.params.id}})
         }catch(err){
             next(err)
         }
