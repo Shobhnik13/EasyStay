@@ -33,7 +33,8 @@ router.delete('/find/:id',verifyAdmin,async(req,res)=>{
 // get all-get 
 router.get('/',async(req,res)=>{
     try{
-        const Hotels=await hotel.find()
+        const {min,max, ...others}=req.query
+        const Hotels=await hotel.find({...others})
         res.status(200).json(Hotels)
     }catch(error){
         res.status(500).json(error)
@@ -62,6 +63,27 @@ router.get('/countByCity',async(req,res,next)=>{
         }))
         // const hotels=await hotel.find();
         res.status(200).json(list)
+    }catch(err){
+        res.status(500).json(err)
+    }
+})
+
+//count by type
+router.get('/countByType',async(req,res,next)=>{
+    try{
+        const hotelCount=await hotel.countDocuments({type:'hotel'})
+        const apartmentCount=await hotel.countDocuments({type:'apartment'})
+        const resortCount=await hotel.countDocuments({type:'resort'})
+        const villaCount=await hotel.countDocuments({type:'villa'})
+        const cabinCount=await hotel.countDocuments({type:'cabin'})
+
+        res.status(201).json([
+            { type:'hotels',count:hotelCount },
+            {type:'apartments',count:apartmentCount},
+            {type:'resorts',count:resortCount},
+            {type:'villas',count:villaCount},
+            {type:'cabins',count:cabinCount},
+        ])
     }catch(err){
         res.status(500).json(err)
     }
