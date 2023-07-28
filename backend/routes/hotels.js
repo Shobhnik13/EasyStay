@@ -34,7 +34,10 @@ router.delete('/find/:id',verifyAdmin,async(req,res)=>{
 router.get('/',async(req,res)=>{
     try{
         const {min,max, ...others}=req.query
-        const Hotels=await hotel.find({...others})
+        const Hotels=await hotel.find({
+            ...others,
+            cheapestPrice:{$gte:min, $lte:max}
+        })
         res.status(200).json(Hotels)
     }catch(error){
         res.status(500).json(error)
