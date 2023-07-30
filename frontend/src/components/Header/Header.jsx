@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '../../context/SearchContext.js';
+import { AuthContext } from '../../context/AuthContext';
 const Header = ({type}) => {
   const [openDate,setOpenDate]=useState(false)
   const [destination,setDestination]=useState('')
@@ -40,6 +41,7 @@ const Header = ({type}) => {
     dispatch({type:'NEW_SEARCH',payload:{destination,date,opt}})
     navigate('/hotels',{state:{destination,date,opt}})
   }
+  const {user}=useContext(AuthContext)
   return (
     <div className='header bg-gradient-to-l from-blue-700 to-blue-400'>
         <div className={type==='list'?'headerContainerList':'headerContainer'}>
@@ -69,7 +71,7 @@ const Header = ({type}) => {
         <p className='headerDesc text-xl'>
         Experience luxury for less with EasyStay Booking. Unlock exclusive discounts on top-rated hotels, allowing you to enjoy a lavish stay without breaking the bank. 
         </p>
-        <button className="headerBtn bg-blue-600">Sign in / Register</button>
+       {!user && <button className="headerBtn bg-blue-600">Sign in / Register</button>}
         <div className="headerSearch border-[3px]  border-blue-600">
             <div className="headerSearchItem">
               <FontAwesomeIcon icon={faBed} className='headerIcon'/>

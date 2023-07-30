@@ -34,7 +34,7 @@ app.get('/test',(req,res)=>{
     res.send('success')
 })
 
-app.use('/auth',auth)
+// app.use('/auth',auth)
 app.use('/hotels',hotel)
 app.use('/users',auth)
 app.use('/profile',users)
