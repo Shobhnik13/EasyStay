@@ -51,11 +51,17 @@ router.get('/',verifyAdmin,async(req,res)=>{
         res.status(500).json(error)
     }
 })
-// get by id -get(:id)
+// get by hotelid -get(:id)
 router.get('/:id',async(req,res,next)=>{
     try{
-        const Room=await room.findById(req.params.id)
-        res.status(200).json(Room)
+        const Hotel=await hotel.findById(req.params.id)
+        // as rooms is an array of room ids so promise all will fetch all and we wil map 
+        const Rooms=await Promise.all(Hotel.rooms.map((Room)=>{
+            return(
+                room.findById(Room)
+            )
+        })) 
+        res.status(200).json(Rooms)
     }catch(error){
         res.status(500).json(error)
     }

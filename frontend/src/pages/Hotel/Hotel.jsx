@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleArrowLeft, faCircleArrowRight, faCircleXmark, faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import MailList from '../../components/EmailList/MailList'
 import Footer from '../../components/Footer/Footer'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 import { SearchContext } from '../../context/SearchContext'
+import { AuthContext } from '../../context/AuthContext'
+import Reserve from '../../components/Reserve/Reserve'
 const Hotel = () => {
   const [slideno,setSlideNo]=useState(0);
   const [open,setOpen]=useState(false)
@@ -26,7 +28,7 @@ const Hotel = () => {
       }
       setSlideNo(newSlideNo)
   }
-  
+  const [roomModal,setRoomModal]=useState(false)
   const location=useLocation()
   // console.log(location)
   //as we can not split the location directly bcoz its an object 
@@ -47,6 +49,16 @@ const Hotel = () => {
     return diffDays
   }
   const days=dayDiff(date[0].endDate,date[0].startDate)
+  const {user}=useContext(AuthContext)
+  const navigate=useNavigate()
+  const handleClick=()=>{
+        if(user){
+          setRoomModal(true);
+        }
+        else{
+          navigate('/login')
+        }
+  }
   return (
     <div>
       <Navbar/>
@@ -111,13 +123,14 @@ const Hotel = () => {
               <h2>
                 <b>${days*data.cheapestPrice*opt.room}</b> ({days} nights)
               </h2>
-              <button>Reserve or Book Now!</button>
+              <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
             </div>
         </div>
         <MailList/>
         <Footer/>
       </div></>)}
+      {roomModal && <Reserve setRoomModal={setRoomModal} hotelId={id}/>}
     </div>
   )
 }
