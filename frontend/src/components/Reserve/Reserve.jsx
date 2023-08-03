@@ -1,19 +1,48 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import '../Reserve/Reserve.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import useFetch from '../../hooks/useFetch'
+import { SearchContext } from '../../context/SearchContext'
 const Reserve = ({setRoomModal,hotelId}) => {
   const {loading,data,err}=useFetch(`http://localhost:8000/rooms/${hotelId}`)
   // console.log(data)
   const [selectedRooms,setSelectedRooms]=useState([])
-  const selectRoom=(e)=>{
-     const checked=e.target.checked
-     const value=e.target.value
-     
-     setSelectedRooms(checked ? [...selectedRooms,value] : selectedRooms.filter(item=> item !== value
-     ))
-     console.log(selectedRooms)
+  const selectRoom = (e) => {
+    const checked = e.target.checked;
+    const value = e.target.value;
+    setSelectedRooms(
+      checked
+        ? [...selectedRooms, value]
+        : selectedRooms.filter((item) => item !== value)
+    );
+  };
+  // console.log(selectedRooms)
+
+  const {date}=useContext(SearchContext)
+  
+  const getDatesInRange=(startDate,endDate)=>{
+    const start=new Date(startDate)
+    const end=new Date(endDate)
+    const date=new Date(start.getTime())
+    //now loop over this  date until it reaches or < the end dte
+    const list=[]
+    while(date<=end){
+      list.push(new Date(date).getTime())
+      date.setDate(date.getDate()+1)
+  }
+  return list
+  }
+  const allDates=getDatesInRange(date[0].startDate,date[0].endDate)
+  
+  const isAvailable=(rn)=>{
+    //checks that if this room no INCLUDES SOME alldates in its unaivable dates array
+    const isFound=rn.unavailableDates.some((date)=>allDates.includes(new Date(date).getTime()))
+    //true -> so isFound means we cant book 
+    return !isFound
+  }
+  const handleClick=()=>{
+    
   }
   return (
     <div className='reserve'>
@@ -26,7 +55,7 @@ const Reserve = ({setRoomModal,hotelId}) => {
         <span>Select your rooms:</span>
         {data && data.map((item)=>{
           return(
-            <div className="ritem">
+            <div className="rItem">
               <div className="rIteminfo">
                 <div className="rTitle">{item.title}</div>
                 <div className="rDesc">{item.desc}</div>
@@ -34,17 +63,20 @@ const Reserve = ({setRoomModal,hotelId}) => {
                 <div className="rPrice">{item.price}</div>
               </div>
                 {/* as room number cn be multiple so make a mapping of select type  */}
+                <div className='rSelectRooms'>
                 {item.roomNumbers.map((rn)=>{
                   return(
                     <div className="room">
                     <label htmlFor="">{rn.number}</label>
-                    <input type="checkbox" name="" value={rn._id} id="" onChange={selectRoom} />
+                    <input type="checkbox" name="" value={rn._id} id="" onChange={selectRoom} disabled={!isAvailable(rn)} />
                   </div>
                   )
                 })}
+                </div>
             </div>
           )
         })}
+        <button onClick={handleClick} className="rButton">Reserve Now!</button>
       </div>
     </div>
   )
