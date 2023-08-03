@@ -19,10 +19,17 @@ router.post('/:hotelId',verifyAdmin,async(req,res,next)=>{
         next(err)
     } 
 })
-router.put('/:id',verifyAdmin,async(req,res)=>{
+router.put('/availability/:id',async(req,res)=>{
     try{
-    const updateRoom=await room.findByIdAndUpdate(req.params.id, {$set:req.body} ,{new:true})
-    res.status(200).json(updateRoom)
+        //here we will NOT USE findByIdAndUpdate bcoz we are not updating room props so no need of room id 
+        //but hre we are updating the unavailable dates of roomNumbers so we only need the updateOne and we need individually roomNumbers id
+        
+        await room.updateOne({"roomNumbers._id":req.params.id},{
+            $push:{
+                "roomNumbers.$.unavailableDates":req.body.date
+            }
+        })
+        res.status(200).json('updated')
     }catch(error){
         res.status(500).json(error)
     }
@@ -43,7 +50,7 @@ router.delete('/:id/:hotelId',verifyAdmin,async(req,res)=>{
     }
 })
 // get all-get 
-router.get('/',verifyAdmin,async(req,res)=>{
+router.get('/',async(req,res)=>{
     try{
         const Rooms=await room.find()
         res.status(200).json(Rooms)

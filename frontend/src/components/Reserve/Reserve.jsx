@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import useFetch from '../../hooks/useFetch'
 import { SearchContext } from '../../context/SearchContext'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 const Reserve = ({setRoomModal,hotelId}) => {
   const {loading,data,err}=useFetch(`http://localhost:8000/rooms/${hotelId}`)
   // console.log(data)
@@ -20,7 +22,7 @@ const Reserve = ({setRoomModal,hotelId}) => {
   // console.log(selectedRooms)
 
   const {date}=useContext(SearchContext)
-  
+  //for extracting and finalising all the dates
   const getDatesInRange=(startDate,endDate)=>{
     const start=new Date(startDate)
     const end=new Date(endDate)
@@ -34,15 +36,29 @@ const Reserve = ({setRoomModal,hotelId}) => {
   return list
   }
   const allDates=getDatesInRange(date[0].startDate,date[0].endDate)
-  
+  //to check if room is unavailabe or not
   const isAvailable=(rn)=>{
-    //checks that if this room no INCLUDES SOME alldates in its unaivable dates array
+    //checks that if this room no is INCLUDED in SOME alldates in its unaivable dates array
     const isFound=rn.unavailableDates.some((date)=>allDates.includes(new Date(date).getTime()))
     //true -> so isFound means we cant book 
     return !isFound
   }
-  const handleClick=()=>{
-    
+  const navigate=useNavigate()
+  //for reserving
+  const handleClick=async()=>{
+    try{
+      //as selectedrooms is an array so promise.all
+      await Promise.all(selectedRooms.map((roomId)=>{
+        //update the roomId
+        const res=axios.put(`http://localhost:8000/rooms/availability/${roomId}`,{
+          date:allDates,
+        })
+        return res.data
+      }))
+      navigate('/')
+    }catch(err){
+
+    }
   }
   return (
     <div className='reserve'>
