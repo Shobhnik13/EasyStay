@@ -11,7 +11,7 @@ const Reserve = ({setRoomModal,hotelId}) => {
      const checked=e.target.checked
      const value=e.target.value
      
-     setSelectedRooms(checked ? [...selectedRooms,value] : selectedRooms.filter(item=> item === value
+     setSelectedRooms(checked ? [...selectedRooms,value] : selectedRooms.filter(item=> item !== value
      ))
      console.log(selectedRooms)
   }
