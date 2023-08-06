@@ -13,7 +13,9 @@ const Navbar = () => {
         {/* {user ? user.username : ( */}
          {user ?(<h1 className="font-bold  text-3xl text-green-500">{user.username}</h1>):(<div className="navItems">
             <button className="navButton bg-blue-400 font-semibold">Register</button>
+            <Link to={'/login'}>
             <button className="navButton  bg-blue-400 font-semibold">Login</button>
+            </Link>
           </div>)}
         {/* )} */}
       </div>
